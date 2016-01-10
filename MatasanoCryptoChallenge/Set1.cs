@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,7 +11,7 @@ namespace MatasanoCryptoChallenge
     public class Set1
     {
         [TestMethod]
-        public void HexToBase64()
+        public void Challenge1_HexToBase64()
         {
             var bytes =
                 Utils.HexToByteArray(
@@ -27,7 +25,7 @@ namespace MatasanoCryptoChallenge
         }
 
         [TestMethod]
-        public void FixedXor()
+        public void Challenge2_FixedXor()
         {
             const string aHex = "1c0111001f010100061a024b53535009181c";
             const string bHex = "686974207468652062756c6c277320657965";
@@ -44,7 +42,7 @@ namespace MatasanoCryptoChallenge
         }
 
         [TestMethod]
-        public void SingleByteXorCipher()
+        public void Challenge3_SingleByteXorCipher()
         {
             const string cipherHex = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
             var cipherData = Utils.HexToByteArray(cipherHex);
@@ -58,7 +56,7 @@ namespace MatasanoCryptoChallenge
         }
 
         [TestMethod]
-        public void DetectSingleCharacterXor()
+        public void Challenge4_DetectSingleCharacterXor()
         {
             var lines = Utils.GetResourceLines("DetectSingleCharacterXor.txt");
             var lineData = lines.Select(Utils.HexToByteArray);
@@ -78,7 +76,7 @@ namespace MatasanoCryptoChallenge
 
 
         [TestMethod]
-        public void RoundtripXor()
+        public void Challenge5Prep_RoundtripXor()
         {
             const string plaintext = "We have nothing to fear but fear itself";
 
@@ -97,7 +95,7 @@ namespace MatasanoCryptoChallenge
         }
 
         [TestMethod]
-        public void RepeatingKeyXor()
+        public void Challenge5_RepeatingKeyXor()
         {
             var key = Encoding.ASCII.GetBytes("ICE");
 
@@ -122,7 +120,7 @@ namespace MatasanoCryptoChallenge
         }
 
         [TestMethod]
-        public void HammingTest()
+        public void Challenge6Prep_HammingTest()
         {
             const string value1 = "this is a test";
             const string value2 = "wokka wokka!!!";
@@ -135,7 +133,7 @@ namespace MatasanoCryptoChallenge
         }
 
         [TestMethod]
-        public void BreakRepeatingKeyXor()
+        public void Challenge6_BreakRepeatingKeyXor()
         {
             var data = Utils.GetResourceBase64("RepeatingKeyXor.txt");
 
@@ -186,7 +184,7 @@ namespace MatasanoCryptoChallenge
         }
 
         [TestMethod]
-        public void AesEcbMode()
+        public void Challenge7_AesEcbMode()
         {
             var aes = new AesManaged {Mode = CipherMode.ECB};
 
@@ -207,7 +205,7 @@ namespace MatasanoCryptoChallenge
         }
 
         [TestMethod]
-        public void DetectAesEcb()
+        public void Challenge8_DetectAesEcb()
         {
             var lines = Utils.GetResourceBase64Lines("DetectAesEcb.txt");
 

@@ -10,7 +10,7 @@ namespace MatasanoCryptoChallenge
     public class Set2
     {
         [TestMethod]
-        public void ImplementPkcs7()
+        public void Challenge09_ImplementPkcs7()
         {
             var data = Encoding.ASCII.GetBytes("YELLOW SUBMARINE");
             var padded = data.PadPkcs7(20);
@@ -21,7 +21,7 @@ namespace MatasanoCryptoChallenge
         }
 
         [TestMethod]
-        public void ImplementCbc()
+        public void Challenge10_ImplementCbc()
         {
             var cipherData = Utils.GetResourceBase64("ImplementCbcMode.txt");
             const string key = "YELLOW SUBMARINE";
