@@ -138,7 +138,10 @@ namespace MatasanoCryptoChallenge
             var data = Utils.GetResourceBase64("RepeatingKeyXor.txt");
 
             var keySizes = Enumerable.Range(2, 40);
-
+            
+            // this is slightly different than the approach described in the challenge.  We 
+            // convolve the data against itself and look for the lowest "energy" step.  This
+            // is likely where the repeating keys overlap and the plaintext pattern emerges.
             var convolvedKeySizes = keySizes.ToDictionary(keySize => keySize, keySize =>
             {
                 var padding = Enumerable.Repeat((byte) 0, keySize).ToArray();
