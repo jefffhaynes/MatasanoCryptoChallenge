@@ -76,38 +76,15 @@ namespace MatasanoCryptoChallenge
             return count;
         }
 
-        public static IEnumerable<byte> PadPkcs7(this IEnumerable<byte> value, byte blockSize)
+        public static IEnumerable<double> NormalizedHammingConvolve(this IEnumerable<byte> source)
         {
-            int count = 0;
-            foreach (var b in value)
+            int offset = 0;
+            foreach (var b in source)
             {
-                yield return b;
-                count++;
+                var padding = Enumerable.Repeat((byte)0, offset);
+                yield return Hamming(padding.Concat(source), source.Concat(padding))/(double)offset;
+                offset++;
             }
-
-            var remainder = blockSize%count;
-
-            for (int i = 0; i < remainder; i++)
-                yield return (byte)remainder;
-        }
-
-        public static IEnumerable<byte> RemovePkcs7(this IEnumerable<byte> value)
-        {
-            // TODO make this memory efficient
-
-            var data = value.ToArray();
-
-            var paddingLength = data[data.Length - 1];
-            var dataLength = data.Length - paddingLength;
-
-            var padding = new byte[paddingLength];
-            Array.Copy(data, dataLength, padding, 0, paddingLength);
-
-            if(!padding.All(b => b == paddingLength))
-                throw new InvalidOperationException("Invalid padding");
-
-            for (int i = 0; i < dataLength; i++)
-                yield return data[i];
         }
 
         public static IDictionary<char, double> GetNewYorkTimesCharacterFrequency()
@@ -150,6 +127,11 @@ namespace MatasanoCryptoChallenge
         public static IEnumerable<byte[]> GetResourceBase64Lines(string resouceName)
         {
             return GetResourceLines(resouceName).Select(Convert.FromBase64String);
+        }
+
+        public static IEnumerable<byte[]> GetResourceHexLines(string resourceName)
+        {
+            return GetResourceLines(resourceName).Select(HexToByteArray);
         } 
 
         private static IEnumerable<byte> Repeat(byte value)
@@ -157,6 +139,5 @@ namespace MatasanoCryptoChallenge
             while (true)
                 yield return value;
         }
-
     }
 }

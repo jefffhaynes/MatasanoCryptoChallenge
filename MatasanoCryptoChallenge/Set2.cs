@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -39,6 +40,19 @@ namespace MatasanoCryptoChallenge
                 var expected = Utils.GetResourceText("Set2PlainText.txt");
 
                 Assert.AreEqual(expected, plainText);
+            }
+        }
+
+        [TestMethod]
+        public void Challenge11_EcbCbcDetectionOracle()
+        {
+            var oracle = new EcbCbcDetectionOracle();
+
+            for (int i = 0; i < 20; i++)
+            {
+                bool isEcb;
+                var ct = oracle.Encrypt("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", out isEcb);
+                Assert.AreEqual(isEcb, EcbCbcDetectionOracle.IsEcb(ct, 16));
             }
         }
     }

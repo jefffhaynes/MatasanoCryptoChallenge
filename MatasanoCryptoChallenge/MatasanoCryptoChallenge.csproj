@@ -52,6 +52,9 @@
   <ItemGroup>
     <Compile Include="AesCbcCryptoTransform.cs" />
     <EmbeddedResource Include="Resources\ImplementCbcMode.txt" />
+    <Compile Include="ByteArrayComparer.cs" />
+    <Compile Include="CryptoUtils.cs" />
+    <Compile Include="EcbCbcDetectionOracle.cs" />
     <Compile Include="LinqExtensions.cs" />
     <Compile Include="Set1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

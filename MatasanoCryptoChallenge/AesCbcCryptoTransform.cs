@@ -8,7 +8,6 @@ namespace MatasanoCryptoChallenge
     {
         private readonly byte[] _previousBlock;
         private readonly ICryptoTransform _aesEcbTransform;
-        private readonly byte[] _key;
 
         public AesCbcCryptoTransform(byte[] key, byte[] iv)
         {
@@ -20,8 +19,6 @@ namespace MatasanoCryptoChallenge
 
             _aesEcbTransform = aes.CreateDecryptor(key, new byte[aes.BlockSize/8]);
             _previousBlock = iv;
-
-            _key = key;
         }
 
         public void Dispose()
@@ -47,9 +44,6 @@ namespace MatasanoCryptoChallenge
         public byte[] TransformFinalBlock(byte[] inputBuffer, int inputOffset, int inputCount)
         {
             var output =  _aesEcbTransform.TransformFinalBlock(inputBuffer, inputOffset, inputCount);
-            //var output = new byte[OutputBlockSize];
-            //TransformBlock(inputBuffer, inputOffset, InputBlockSize, output, 0);
-
             return output.Length == 0 ? output : output.RemovePkcs7().ToArray();
         }
 

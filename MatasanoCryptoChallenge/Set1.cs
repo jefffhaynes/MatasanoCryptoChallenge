@@ -210,21 +210,14 @@ namespace MatasanoCryptoChallenge
         [TestMethod]
         public void Challenge8_DetectAesEcb()
         {
-            var lines = Utils.GetResourceBase64Lines("DetectAesEcb.txt");
+            var lines = Utils.GetResourceHexLines("DetectAesEcb.txt");
+            var ecbLine = lines.Single(line => EcbCbcDetectionOracle.IsEcb(line, 16));
 
-            var padding = Enumerable.Repeat((byte)0, 16).ToArray();
-            var lineDistances = lines.ToDictionary(line => line, line => Utils.Hamming(padding.Concat(line), line.Concat(padding)));
+            var ecbHex = Utils.ByteArrayToHex(ecbLine);
+            
+            const string expectedHex = "D880619740A8A19B7840A8A31C810A3D08649AF70DC06F4FD5D2D69C744CD283E2DD052F6B641DBF9D11B0348542BB5708649AF70DC06F4FD5D2D69C744CD2839475C9DFDBC1D46597949D9C7E82BF5A08649AF70DC06F4FD5D2D69C744CD28397A93EAB8D6AECD566489154789A6B0308649AF70DC06F4FD5D2D69C744CD283D403180C98C8F6DB1F2A3F9C4040DEB0AB51B29933F2C123C58386B06FBA186A";
 
-            var lowestDistance = lineDistances.OrderBy(pair => pair.Value);
-
-            var encryptedData = lowestDistance.First().Key;
-
-            var encryptedBase64 = Convert.ToBase64String(encryptedData);
-
-            const string expectedBase64 =
-                "fe2977f56f9f414ddf898d21b3e13a48116dbf3ed13253ee69c2005ba1afd30d0665d03e76820e172af73ee8bb3ac387170f81530d73debf97d9dc73b6f4073089ef48ef43f24b0a0e69e2ed1f469482f9c74ae3618399bf6bf99bbf9a6476ed1d3398bc9a59f90feb131b2147795c39a38ec4ab883a3732f9a4c01fd3600047973b361d60f8457e63abbd29d7d73415d89c852305649125533ad73828e34d2e";
-           
-            Assert.AreEqual(expectedBase64, encryptedBase64);
+            Assert.AreEqual(expectedHex, ecbHex);
         }
     }
 }
